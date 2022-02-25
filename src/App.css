@@ -1,62 +1,54 @@
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
 
-  body {
-  font-family: sans-serif;
-  }
-  .Speech {
-  width: 50px;
-  }
-  .group {
+
+
+.voiceinator {
+  padding: 0 1rem 1rem;
   
-  }
-  textarea {
+  margin: auto;
+  border-radius: 4px;
+  background: white;
+  
+}
+
+h1 {
   width: 100%;
-  padding: 5px 10px;
-  border: 1px solid rgb(228, 20, 20);
-  outline: none;
-  border-radius: 3px;
-  }
-  button {
+  padding: 0.5rem;
+  background: rgb(92, 93, 95);
+  color: white;
+  text-align: center;
+}
+
+.voiceinator input,
+.voiceinator button,
+.voiceinator select,
+.voiceinator textarea {
   width: 100%;
   display: block;
-  padding: 10px 22px;
-  color: rgb(10, 10, 10);
-  font-weight: bold;
-  cursor: pointer;
-  outline: none;
-  background: rgb(227, 240, 219);;
-  }
-  h2 {
-  margin-bottom: 10px;
-  text-align: center;
-  }
-  
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  margin: 10px 0;
+  padding: 10px;
+  border: 0;
+  font-size: 1rem;
+  background: #eee;
+  outline: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+textarea {
+  height: 20rem;
+  min-height: 50vh;
+}
+
+.voiceinator button {
+  background: LightSlateGrey;
   color: white;
+
+  justify-content: center;
+  margin-bottom: 0;
+  font-size: 1.5rem;
+  cursor: pointer;
+
 }
 
-.App-link {
-  color: #61dafb;
-}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+

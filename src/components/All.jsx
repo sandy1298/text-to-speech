@@ -1,139 +1,124 @@
 import React from 'react'
 
 export default function All() {
-    // Initialize new SpeechSynthesisUtterance object
+
     window.addEventListener('load', (event) => {
-let speech = new SpeechSynthesisUtterance();
 
-// Set Speech Language
-speech.lang = "en";
+const msg = new SpeechSynthesisUtterance();
+let voices = []; //empty array for voices
+const voicesDropdown = document.querySelector('[name="voice"]');
+const options = document.querySelectorAll('[type="range"], [name="text"]');
+const rate = document.querySelector('#rate');
+const speakButton = document.querySelector('#speak'); //start to speak
+const stopButton = document.querySelector('#stop'); //stop
+const pauseButton = document.querySelector('#pause'); //pause
+const resumeButton = document.querySelector('#resume'); //resume
+msg.text = document.querySelector('[name="text"]').value;
 
-let voices = []; // global array of available voices
 
-window.speechSynthesis.onvoiceschanged = () => {
-  // Get List of Voices
-  voices = window.speechSynthesis.getVoices();
+function populateVoices() {
+  voices = this.getVoices();
+  voicesDropdown.innerHTML = voices
+  .filter(voice => voice.lang.includes('en')) // showing only english voices
+  .map(voice => `<option value="${voice.name}">${voice.name} (${voice.lang})</option>`) //all of the voices 
+  .join('');
+}
 
-  // Initially set the First Voice in the Array.
-  speech.voice = voices[0];
+function setVoice() {
+  msg.voice = voices.find(voice => voice.name === this.value); //loop over every single voices in the array and find the one where it's name attribute is the same as the option that was currently selected
+  toggle();
+}
 
-  // Set the Voice Select List. (Set the Index as the value, which we'll use later when the user updates the Voice using the Select Menu.)
-  let voiceSelect = document.querySelector("#voices");
-  voices.forEach(
-    (voice, i) => (voiceSelect.options[i] = new Option(voice.name, i))
-  );
-};
+function toggle(startOver = true) {
+  speechSynthesis.cancel();
+  speakButton.classList.remove('hidden');
+  pauseButton.classList.add('hidden');
+  resumeButton.classList.add('hidden')
+  //restart speaking
+  if (startOver) {
+    speechSynthesis.speak(msg);
+    speakButton.classList.add('hidden');
+    pauseButton.classList.remove('hidden');
+  }
+}
 
-document.querySelector("#rate").addEventListener("input", () => {
-  // Get rate Value from the input
-  const rate = document.querySelector("#rate").value;
+function pause() {
+  speechSynthesis.pause();
+  pauseButton.classList.add('hidden');
+  resumeButton.classList.remove('hidden');
+}
 
-  // Set rate property of the SpeechSynthesisUtterance instance
-  speech.rate = rate;
+function resume() {
+  speechSynthesis.resume();
+  pauseButton.classList.remove('hidden');
+  resumeButton.classList.add('hidden');
+}
 
-  // Update the rate label
-  document.querySelector("#rate-label").innerHTML = rate;
-});
+function setOption() {
+  console.log(this.name, this.value);
+  msg[this.name] = this.value;
+  toggle();
+}
 
-document.querySelector("#volume").addEventListener("input", () => {
-  // Get volume Value from the input
-  const volume = document.querySelector("#volume").value;
+msg.onend = function(event) {
+  console.log('Utterance has finished ' + event.elapsedTime + ' milliseconds.');
+  speakButton.classList.remove('hidden');
+  pauseButton.classList.add('hidden');
+  resumeButton.classList.add('hidden');
+}
 
-  // Set volume property of the SpeechSynthesisUtterance instance
-  speech.volume = volume;
-
-  // Update the volume label
-  document.querySelector("#volume-label").innerHTML = volume;
-});
-
-document.querySelector("#pitch").addEventListener("input", () => {
-  // Get pitch Value from the input
-  const pitch = document.querySelector("#pitch").value;
-
-  // Set pitch property of the SpeechSynthesisUtterance instance
-  speech.pitch = pitch;
-
-  // Update the pitch label
-  document.querySelector("#pitch-label").innerHTML = pitch;
-});
-
-document.querySelector("#voices").addEventListener("change", () => {
-  // On Voice change, use the value of the select menu (which is the index of the voice in the global voice array)
-  speech.voice = voices[document.querySelector("#voices").value];
-});
-
-document.querySelector("#start").addEventListener("click", () => {
-  // Set the text property with the value of the textarea
-  speech.text = document.querySelector("textarea").value;
-
-  // Start Speaking
-  window.speechSynthesis.speak(speech);
-});
-
-document.querySelector("#pause").addEventListener("click", () => {
-  // Pause the speechSynthesis instance
-  window.speechSynthesis.pause();
-});
-
-document.querySelector("#resume").addEventListener("click", () => {
-  // Resume the paused speechSynthesis instance
-  window.speechSynthesis.resume();
-});
-
-document.querySelector("#cancel").addEventListener("click", () => {
-  // Cancel the speechSynthesis instance
-  window.speechSynthesis.cancel();
-});
+msg.rate = 2.7; // default rate on load
+speechSynthesis.addEventListener('voiceschanged', populateVoices);
+voicesDropdown.addEventListener('change', setVoice);
+options.forEach(option => option.addEventListener('change', setOption));
+speakButton.addEventListener('click', toggle);
+pauseButton.addEventListener('click', pause);
+resumeButton.addEventListener('click', resume);
+stopButton.addEventListener('click', () => toggle(false));
 });
   return (
-    <>
-        <div class="container mt-5 bg-dark">
-    <h1 class="text-light">Text to Speech</h1>
-    <p class="lead text-light mt-4">Select Voice</p>
+    <div className=''>
+<div className="voiceinator">
+  <h1>Text to Speech Conversion using React JS</h1>
 
-    
-    <select id="voices" class="form-select bg-secondary text-light"> </select>
+  <select name="voice" id="voices">
+    <option value="">Select A Voice</option>
+  </select>
 
-    
-    <div class="d-flex mt-4 text-light">
-      <div>
-        <p class="lead">Volume</p>
-        <input type="range" min="0" max="1" value="1" step="0.1" id="volume" />
-        <span id="volume-label" class="ms-2">1</span>
-      </div>
-      <div class="mx-5">
-        <p class="lead">Rate</p>
-        <input type="range" min="0.1" max="10" value="1" id="rate" step="0.1" />
-        <span id="rate-label" class="ms-2">1</span>
-      </div>
-      <div>
-        <p class="lead">Pitch</p>
-        <input type="range" min="0" max="2" value="1" step="0.1" id="pitch" />
-        <span id="pitch-label" class="ms-2">1</span>
-      </div>
+  
+  <datalist id="tickmarks">
+    <option value="0"></option>
+    <option value="1"></option>
+    <option value="2"></option>
+    <option value="3"></option>
+    <option value="4"></option>
+    <option value="5"></option>
+    <option value="6"></option>
+    <option value="7"></option>
+    <option value="8"></option>
+    <option value="9"></option>
+    <option value="10"></option>
+    <option value="11"></option>
+    <option value="12"></option>
+    <option value="13"></option>
+    <option value="14"></option>
+    <option value="15"></option>
+    <option value="16"></option>
+  </datalist>
+
+  <label htmlFor="pitch">Pitch:</label>
+  <input name="pitch" type="range" min="0" max="2" step="0.1"/>
+  
+  <textarea name="text">Type here...</textarea>
+  
+  <button id="stop">Stop</button>
+  <button id="speak" className="">Speak</button>
+  <button id="pause" className="hidden">Pause</button>
+  <button id="resume" className="hidden">Resume</button>
+</div>
+
+
     </div>
-
-    
-    <textarea
-      class="form-control bg-dark text-light mt-5"
-      cols="30"
-      rows="10"
-      placeholder="Type here..."
-    ></textarea>
-
-    
-    <div class="mb-5">
-      <button id="start" class="btn btn-success mt-5 me-3">
-        Hear out loud
-      </button>
-      <button id="pause" class="btn btn-warning mt-5 me-3">
-        Pause reading
-      </button>
-      <button id="resume" class="btn btn-info mt-5 me-3">Resume reading</button>
-      <button id="cancel" class="btn btn-danger mt-5 me-3">Cancel</button>
-    </div>
-  </div>
-    </>
   )
 }
 
