@@ -31,27 +31,27 @@ function setVoice() {
 
 function toggle(startOver = true) {
   speechSynthesis.cancel();
-  speakButton.classList.remove('hidden');
-  pauseButton.classList.add('hidden');
-  resumeButton.classList.add('hidden')
+  speakButton.classList.remove();
+  pauseButton.classList.add();
+  resumeButton.classList.add()
   //restart speaking
   if (startOver) {
     speechSynthesis.speak(msg);
-    speakButton.classList.add('hidden');
-    pauseButton.classList.remove('hidden');
+    speakButton.classList.add();
+    pauseButton.classList.remove();
   }
 }
 
 function pause() {
   speechSynthesis.pause();
-  pauseButton.classList.add('hidden');
-  resumeButton.classList.remove('hidden');
+  pauseButton.classList.add();
+  resumeButton.classList.remove();
 }
 
 function resume() {
   speechSynthesis.resume();
-  pauseButton.classList.remove('hidden');
-  resumeButton.classList.add('hidden');
+  pauseButton.classList.remove();
+  resumeButton.classList.add();
 }
 
 function setOption() {
@@ -62,9 +62,9 @@ function setOption() {
 
 msg.onend = function(event) {
   console.log('Utterance has finished ' + event.elapsedTime + ' milliseconds.');
-  speakButton.classList.remove('hidden');
-  pauseButton.classList.add('hidden');
-  resumeButton.classList.add('hidden');
+  speakButton.classList.remove();
+  pauseButton.classList.add();
+  resumeButton.classList.add();
 }
 
 msg.rate = 2.7; // default rate on load
@@ -116,8 +116,8 @@ stopButton.addEventListener('click', () => toggle(false));
   
   <button id="stop">Stop</button>
   <button id="speak" className="">Speak</button>
-  <button id="pause" className="hidden">Pause</button>
-  <button id="resume" className="hidden">Resume</button>
+  <button id="pause" className="">Pause</button>
+  <button id="resume" className="">Resume</button>
 </div>
 
 
