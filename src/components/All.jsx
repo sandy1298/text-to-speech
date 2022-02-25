@@ -77,7 +77,7 @@ resumeButton.addEventListener('click', resume);
 stopButton.addEventListener('click', () => toggle(false));
 });
   return (
-    <div className=''>
+    <div className='container-fluid'>
 <div className="voiceinator">
   <h1>Text to Speech Conversion using React JS</h1>
 
@@ -85,9 +85,11 @@ stopButton.addEventListener('click', () => toggle(false));
     <option value="">Select A Voice</option>
   </select>
 
-  
+  <label htmlFor="rate">Rate:</label>
+  <input name="rate" id="rate" type="range" min="0" max="16"  step="0.1" list="tickmarks"/>
   <datalist id="tickmarks">
-    <option value="0"></option>
+  <option value=""></option>
+    {/* <option value="0"></option>
     <option value="1"></option>
     <option value="2"></option>
     <option value="3"></option>
@@ -103,9 +105,10 @@ stopButton.addEventListener('click', () => toggle(false));
     <option value="13"></option>
     <option value="14"></option>
     <option value="15"></option>
-    <option value="16"></option>
+    <option value="16"></option> */}
   </datalist>
 
+  
   <label htmlFor="pitch">Pitch:</label>
   <input name="pitch" type="range" min="0" max="2" step="0.1"/>
   
