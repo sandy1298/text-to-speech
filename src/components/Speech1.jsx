@@ -60,6 +60,8 @@ const useSpeechSynthesis = (props = {}) => {
     window.speechSynthesis.cancel();
   };
 
+  
+
   return {
     supported,
     speak,

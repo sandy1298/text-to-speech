@@ -1,13 +1,14 @@
 import React from "react";
 import './App.css';
-import Speech2 from "./components/Speech2";
+import All from "./components/All";
+
 
 
 
 function App() {
   return (
     <div className="App">
-          <Speech2/>
+          <All/>
     </div>
   );
 }
