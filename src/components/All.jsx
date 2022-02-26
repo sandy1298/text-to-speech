@@ -88,8 +88,8 @@ stopButton.addEventListener('click', () => toggle(false));
   <label htmlFor="rate">Rate:</label>
   <input name="rate" id="rate" type="range" min="0" max="16"  step="0.1" list="tickmarks"/>
   <datalist id="tickmarks">
-  <option value=""></option>
-    {/* <option value="0"></option>
+  {/* <option value=""></option> */}
+     <option value="0"></option>
     <option value="1"></option>
     <option value="2"></option>
     <option value="3"></option>
@@ -105,7 +105,7 @@ stopButton.addEventListener('click', () => toggle(false));
     <option value="13"></option>
     <option value="14"></option>
     <option value="15"></option>
-    <option value="16"></option> */}
+    <option value="16"></option> 
   </datalist>
 
   
